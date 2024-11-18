@@ -1139,7 +1139,7 @@ def process_images(p: StableDiffusionProcessing) -> Processed:
                 for img in images:
                     img_bytes = io.BytesIO()
                     img.save(img_bytes, format="PNG")
-                    requests.post(webhook_url, file={"img.png": img_bytes.getvalue()})
+                    requests.post(webhook_url, files={"img.png": img_bytes.getvalue()})
                     requests.post(
                         "Seed:{}\nPrompt:\n```{}```\nNegative Prompt:\n```{}```".format(
                             p.seed, p.prompt, p.negative_prompt
