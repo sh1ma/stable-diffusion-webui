@@ -1141,9 +1141,12 @@ def process_images(p: StableDiffusionProcessing) -> Processed:
                     img.save(img_bytes, format="PNG")
                     requests.post(webhook_url, files={"img.png": img_bytes.getvalue()})
                     requests.post(
-                        "Seed:{}\nPrompt:\n```{}```\nNegative Prompt:\n```{}```".format(
-                            p.seed, p.prompt, p.negative_prompt
-                        )
+                        webhook_url,
+                        json={
+                            "content": "Seed:{}\nPrompt:\n```{}```\nNegative Prompt:\n```{}```".format(
+                                p.seed, p.prompt, p.negative_prompt
+                            )
+                        },
                     )
             except Exception as e:
                 print("Error sending image to discord: {}".format(e))
